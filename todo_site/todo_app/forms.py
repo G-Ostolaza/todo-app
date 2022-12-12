@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from todo_app.models import Task, Comment
+from todo_app.models import Task, Comment, Tag
 
 # creating form model class
 class TaskForm(ModelForm):
@@ -23,3 +23,19 @@ class CommentForm(ModelForm):
         # self.instance is the comment that we are creating  with this form
         self.instance.task =task
 
+class TagForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name']
+
+    def save(self, task, *args, **kwargs):
+        # keeps track of the data in the form as a dictionary.
+        tag_name = self.data['name']
+
+
+        try:
+            tag = Tag.objects.get(name=tag_name)
+        except Tag.DoesNotExist:
+            tag = Tag.objects.create(name=tag_name)
+
+        task.tags.add(tag) 
