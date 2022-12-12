@@ -12,6 +12,6 @@ class Task(models.Model):
 
 class Comment(models.Model):
     #id will be set for us
-    body = models.TextField()
+    body = models.TextField('')
     created_at = models.DateTimeField(auto_now_add=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
